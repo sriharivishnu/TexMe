@@ -1,0 +1,46 @@
+.App {
+  height: 100vh;
+}
+.App.dark {
+  background-color: rgb(36, 36, 36);
+}
+
+.red {
+  background-color: red;
+}
+
+textarea {
+  border-radius: 10px;
+  resize: none;
+}
+.container {
+}
+.CodeMirror {
+  padding: 1rem;
+  border-radius: 10px;
+  margin-top: 10px;
+  border: 1px white solid;
+}
+.dark {
+  color: white;
+}
+.light {
+  color: black;
+}
+
+#dropdown-format {
+  width: 5rem;
+}
+
+.icon-clickable {
+  cursor: pointer;
+}
+
+.icon-clickable:hover {
+  opacity: 0.75;
+}
+
+#output {
+  margin: 1rem;
+  padding: 1rem;
+}
