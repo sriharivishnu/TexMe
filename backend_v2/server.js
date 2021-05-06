@@ -1,35 +1,34 @@
-const express = require("express");
-const app = express();
-var cors = require("cors");
+import express from "express";
+import cors from "cors";
 
-var mathJax = require("mathjax-node");
-mathJax.config({
-  MathJax: {},
-});
-mathJax.start();
+const app = express();
+
+import { getSVG, getPNG, getPDF } from "./controllers/latex-controller.js";
 
 const PORT = process.env.PORT || 8080;
 
 app.use(
   cors({
     origin: "http://localhost:3000",
-    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+    optionsSuccessStatus: 200,
   })
 );
 
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hello TexMe");
+  res.send("TexMe API");
 });
 
 app.post("/latex", (req, res) => {
-  const math = req.body.latex;
-  if (!math) return res.status(400).send("No input!");
-  mathJax.typeset({ math: math, format: "TeX", svg: true }, (data) => {
-    console.log(data);
-    return res.status(200).send({ svg: data.svg });
-  });
+  const { latex, format } = req.body;
+  if (!latex) return res.status(400).send("No input!");
+  switch (format) {
+    case "SVG":
+      return getSVG(res, latex);
+    default:
+      return res.status(400).send({ Error: `Unknown Format: ${format}` });
+  }
 });
 
 app.listen(PORT, () => {
