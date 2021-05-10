@@ -10,8 +10,8 @@ ROBOTSTXT_OBEY = True
 CONCURRENT_REQUESTS = 32
 
 FEEDS = {
-    'equations.json': {
-        'format': 'json',
+    'equations.csv': {
+        'format': 'csv',
         'encoding': 'utf8',
         'store_empty': False,
         'fields': None,

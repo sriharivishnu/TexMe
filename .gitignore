@@ -2,4 +2,4 @@
 *.cer
 *.svg
 *__pycache__*
-crawler/equations.json
+crawler/equations.*
