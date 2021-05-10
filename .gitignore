@@ -1,2 +1,5 @@
 *node_modules*
 *.cer
+*.svg
+*__pycache__*
+crawler/equations.json

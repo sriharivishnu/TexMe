@@ -7,7 +7,6 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter, adapter
 import scrapy
-from scrapy import signals
 from scrapy.exceptions import DropItem
 import os
 from urllib.parse import urlparse
@@ -17,6 +16,7 @@ from scrapy.pipelines.files import FilesPipeline
 class EquationPipeline(FilesPipeline):
     def __init__(self, settings=None):
         self.store_uri = settings['FILES_STORE']
+
         super(EquationPipeline, self).__init__(
             store_uri=settings['FILES_STORE'], settings=settings)
 
@@ -31,8 +31,7 @@ class EquationPipeline(FilesPipeline):
         yield scrapy.Request(adapter["src_url"])
 
     def file_path(self, request, response=None, info=None, *, item=None):
-        path = './data/' + \
-            os.path.basename(urlparse(request.url).path)
+        path = os.path.basename(urlparse(request.url).path)
         if (not path.endswith(".svg")):
             path += ".svg"
         print("Writing to... " + path)
@@ -46,5 +45,5 @@ class EquationPipeline(FilesPipeline):
             raise DropItem("Item was not saved")
 
         adapter = ItemAdapter(item)
-        adapter['path_to_svg'] = path
+        adapter['path_to_svg'] = os.path.join(self.store_uri, path)
         return item
