@@ -20,10 +20,32 @@ class EquationPipeline(FilesPipeline):
         )
 
     def get_media_requests(self, item, info):
+        """
+        Generates the URLs from which to download SVGs given the Equation item
+
+        Args:
+            item (Equation)
+            info (obj)
+
+        Yields:
+            scrapy.Request: Request object constructed with the url to the SVG
+        """
         adapter = ItemAdapter(item)
         yield scrapy.Request(adapter["src_url"])
 
     def file_path(self, request, response=None, info=None, *, item=None):
+        """
+        Returns the file path 
+
+        Args:
+            request ([type]): [description]
+            response ([type], optional): [description]. Defaults to None.
+            info ([type], optional): [description]. Defaults to None.
+            item ([type], optional): [description]. Defaults to None.
+
+        Returns:
+            str: Path to the SVG file
+        """
         path = os.path.basename(urlparse(request.url).path)
         if (not path.endswith(".svg")):
             path += ".svg"
@@ -31,7 +53,20 @@ class EquationPipeline(FilesPipeline):
         return path
 
     def item_completed(self, results, item, info):
-        print(results)
+        """
+        Called when the item has finished downloading
+
+        Args:
+            results (list): List of results
+            item (Equation): Equation items
+            info ([type]): [description]
+
+        Raises:
+            DropItem: Item is dropped when it was not saved properly
+
+        Returns:
+            Equation: The item after modifying the path to the SVG locally
+        """
         ok, resp = results[0]
         path = resp['path']
         if not path:

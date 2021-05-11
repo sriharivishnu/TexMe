@@ -20,6 +20,7 @@ app.get("/", (req, res) => {
   res.send("TexMe API");
 });
 
+// POST /latex
 app.post("/latex", (req, res) => {
   const { latex, format } = req.body;
   if (!latex) return res.status(400).send("No input!");

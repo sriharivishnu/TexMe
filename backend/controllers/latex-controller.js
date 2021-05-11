@@ -4,6 +4,14 @@ mathJax.config({
 });
 mathJax.start();
 
+/**
+ *
+ * @param {*} res
+ * @param {str} latex equation to converted to SVG
+ * @returns Response Status. Possible Status Codes:
+ * - 200: SVG generated successfully
+ * - 400: Error occurred while generating the SVG from latex
+ */
 export const getSVG = async (res, latex) => {
   try {
     const data = await mathJax.typeset({ math: latex, format: "TeX", svg: true });
